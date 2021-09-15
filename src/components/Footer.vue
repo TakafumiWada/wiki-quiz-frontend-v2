@@ -40,6 +40,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter, RouteLocationRaw } from "vue-router";
+
+import { linkToOuterPage } from "@/utils";
 import { TWITTER_URL, NOTE_URL, FACEBOOK_URL } from "@/config";
 
 export default defineComponent({
@@ -47,9 +49,6 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
-    const linkToOuterPage = (url: string) => {
-      window.open(url, "_blank");
-    };
     const linkToInnerPage = (route: RouteLocationRaw) => {
       router.push(route);
     };
