@@ -1,0 +1,242 @@
+$border-size: 1px;
+.top {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(../../public/images/home_background.png);
+  background-size: cover;
+  z-index: 0;
+  &__topic {
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    color: black;
+    z-index: 2;
+    &--main {
+      font-family: $traviraj;
+      margin: 20px 0;
+      font-size: 100px;
+      font-weight: 800;
+      letter-spacing: 2.25px;
+    }
+    &--sub {
+      font-family: $noto-serif;
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: 1.57px;
+    }
+    &--button {
+      margin-top: 50px;
+      button {
+        height: 50px;
+        width: 220px;
+        color: white;
+        background-color: $sub-color;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        div {
+          height: 30px;
+          width: 190px;
+          line-height: 30px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.548);
+          font-family: $noto-sans;
+          font-size: 20px;
+          letter-spacing: 1.23px;
+          transition-duration: 0.3s;
+          &:hover {
+            letter-spacing: 10px;
+          }
+        }
+      }
+    }
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+  }
+}
+.about {
+  height: 85vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $main-color;
+  color: white;
+  &__topic {
+    margin-top: 8vh;
+    font-family: $traviraj;
+    font-weight: 600;
+    font-size: 40px;
+    letter-spacing: 0.9px;
+  }
+  &__contents {
+    margin-top: 4vh;
+    height: 100%;
+    width: 100vw;
+    max-width: 1500px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  &__text {
+    &--main {
+      font-family: $noto-serif;
+      font-weight: 400;
+      font-size: 43px;
+      letter-spacing: 1.13px;
+    }
+    &--sub {
+      margin-top: 5vh;
+      font-family: $noto-sans;
+      letter-spacing: 0.53px;
+      font-size: 20px;
+    }
+  }
+  &__button {
+    margin-top: 4vh;
+    button {
+      letter-spacing: 1.65px;
+      color: white;
+      background-color: transparent;
+      border: 1.5px solid white;
+      font-family: $traviraj;
+      font-size: 20px;
+      width: 100px;
+      padding: 1px 0;
+      cursor: pointer;
+      &:hover {
+        letter-spacing: 8px;
+      }
+      div {
+        text-align: center;
+        width: 100px;
+        transition-duration: 0.3s;
+      }
+    }
+  }
+  &__image {
+    margin-top: 1.5vh;
+    height: 100%;
+    &--inner {
+      height: 65%;
+    }
+  }
+}
+.section-footer {
+  height: 15vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $home-color;
+  &__button {
+    button {
+      height: 50px;
+      width: 300px;
+      font-size: 24px;
+      letter-spacing: 1.65px;
+      color: white;
+      background-color: transparent;
+      border: 2px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        letter-spacing: 10px;
+      }
+      div {
+        height: 40px;
+        width: 220px;
+        line-height: 40px;
+        font-family: $noto-sans;
+        transition-duration: 0.3s;
+      }
+    }
+  }
+}
+.howto {
+  height: 85vh;
+  width: 100vw;
+  background-color: #2b2e4a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__topic {
+    margin: 8vh 0 3vh 0;
+    font-family: $traviraj;
+    font-weight: 600;
+    font-size: 40px;
+    letter-spacing: 0.9px;
+  }
+  &__contents {
+    height: 70%;
+    width: 90%;
+    max-width: 1500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  &__section {
+    height: 50%;
+    width: 43%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &--inner {
+      height: 100%;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &--topic {
+      width: 100%;
+      font-family: $noto-sans;
+      font-size: 1.5em;
+      letter-spacing: 0.53px;
+      &--under {
+        margin-top: 1.5vh;
+      }
+    }
+    &--image {
+      margin-top: 10px;
+      height: 60%;
+      img {
+        height: 100%;
+      }
+    }
+    &--subtopic {
+      margin-top: 3%;
+      font-family: $noto-sans;
+      font-size: 1.1em;
+      letter-spacing: 0.38px;
+    }
+    &--one {
+      border-right: $border-size solid white;
+      border-bottom: $border-size solid white;
+    }
+    &--two {
+      border-left: $border-size solid white;
+      border-bottom: $border-size solid white;
+    }
+    &--three {
+      border-right: $border-size solid white;
+      border-top: $border-size solid white;
+    }
+    &--four {
+      border-top: $border-size solid white;
+      border-left: $border-size solid white;
+    }
+  }
+}
