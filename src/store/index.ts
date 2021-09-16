@@ -1,8 +1,9 @@
-import { createStore } from "vuex";
+import { InjectionKey } from "vue";
+import { createStore, useStore as baseUseStore, Store } from "vuex";
 
 import { articleApi } from "@/api/article";
 import { Article } from "@/domain/Article";
-import { Store, MutationTypes, ActionTypes } from "@/types/store";
+import { ArticleStore, MutationTypes, ActionTypes } from "@/types/store";
 import { SELECTED_CATEGORIES_NUMBER, SELECTED_WORDS_NUMBER } from "@/config";
 
 const LIMITED_WORD_LENGTH = 18;
@@ -20,7 +21,9 @@ const randomSelect = (array: Array<string>, num: number): Array<string> => {
   return newArray;
 };
 
-export default createStore<Store>({
+export const key: InjectionKey<Store<ArticleStore>> = Symbol();
+
+export default createStore<ArticleStore>({
   state: {
     article: {
       categories: [],
@@ -40,12 +43,12 @@ export default createStore<Store>({
   },
   mutations: {
     [MutationTypes.GET_ARTICLE_DATA]: (
-      state: Store,
+      state: ArticleStore,
       payload: Article
     ): void => {
       state.article = payload;
     },
-    [MutationTypes.SELECT_WORDS]: (state: Store): void => {
+    [MutationTypes.SELECT_WORDS]: (state: ArticleStore): void => {
       if (state.article.title) {
         state.selectedWords = randomSelect(
           state.article.words,
@@ -53,7 +56,7 @@ export default createStore<Store>({
         );
       }
     },
-    [MutationTypes.SELECT_CATEGORIES]: (state: Store): void => {
+    [MutationTypes.SELECT_CATEGORIES]: (state: ArticleStore): void => {
       if (!state.article.title) return;
       if (state.article.categories.length < 3) {
         state.selectedCategories = state.article.categories;
@@ -65,15 +68,15 @@ export default createStore<Store>({
       );
     },
     [MutationTypes.GET_SEARCH_RESULT]: (
-      state: Store,
+      state: ArticleStore,
       payload: { searchResult: string }
     ): void => {
       state.searchResult = payload.searchResult;
     },
-    [MutationTypes.START_LOADING]: (state: Store): void => {
+    [MutationTypes.START_LOADING]: (state: ArticleStore): void => {
       state.isLoading = true;
     },
-    [MutationTypes.END_LOADING]: (state: Store): void => {
+    [MutationTypes.END_LOADING]: (state: ArticleStore): void => {
       state.isLoading = false;
     },
   },
@@ -95,3 +98,7 @@ export default createStore<Store>({
     },
   },
 });
+
+export const useStore = () => {
+  return baseUseStore(key);
+};
