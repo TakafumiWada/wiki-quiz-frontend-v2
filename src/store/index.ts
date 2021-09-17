@@ -4,9 +4,11 @@ import { createStore, useStore as baseUseStore, Store } from "vuex";
 import { articleApi } from "@/api/article";
 import { Article } from "@/domain/Article";
 import { ArticleStore, MutationTypes, ActionTypes } from "@/types/store";
-import { SELECTED_CATEGORIES_NUMBER, SELECTED_WORDS_NUMBER } from "@/config";
-
-const LIMITED_WORD_LENGTH = 18;
+import {
+  SELECTED_CATEGORIES_NUMBER,
+  SELECTED_WORDS_NUMBER,
+  LIMITED_WORD_LENGTH,
+} from "@/config";
 
 const randomSelect = (array: Array<string>, num: number): Array<string> => {
   const newArray: Array<string> = [];
