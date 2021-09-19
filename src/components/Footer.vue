@@ -4,16 +4,16 @@
       <div class="footer__topic">QuizWiki</div>
       <div class="footer__links">
         <div class="footer__link">
-          <a @click="linkToPage({ path: '/', hash: '#top' })">TOP</a>
+          <a @click="linkToInnerPage({ path: '/', hash: '#top' })">TOP</a>
         </div>
         <div class="footer__link footer__link--border-left">
-          <a @click="linkToPage({ path: '/', hash: '#about' })">About</a>
+          <a @click="linkToInnerPage({ path: '/', hash: '#about' })">About</a>
         </div>
         <div class="footer__link footer__link--border-left">
-          <a @click="linkToPage({ path: '/', hash: '#howto' })">HowTo</a>
+          <a @click="linkToInnerPage({ path: '/', hash: '#howto' })">HowTo</a>
         </div>
         <div class="footer__link footer__link--border-left">
-          <a @click="linkToPage({ path: '/start' })">クイズに挑む</a>
+          <a @click="linkToInnerPage({ path: '/start' })">クイズに挑む</a>
         </div>
       </div>
       <div class="footer__icons">
@@ -50,7 +50,10 @@ export default defineComponent({
     const router = useRouter();
 
     const linkToInnerPage = (route: RouteLocationRaw) => {
-      router.push(route);
+      router.push(route).catch(() => {
+        router.push("/");
+        router.push(route);
+      });
     };
 
     return {
@@ -120,6 +123,7 @@ export default defineComponent({
   a:hover,
   a:active {
     color: white;
+    cursor: pointer;
   }
 }
 
