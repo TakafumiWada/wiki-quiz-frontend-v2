@@ -1,6 +1,11 @@
 <template>
   <div class="main__wrapper">
-    <b-loading v-model="isLoading"></b-loading>
+    <div class="main__loading" v-show="isLoading">
+      <div
+        class="main__loading--item spinner-border text-secondary"
+        role="status"
+      ></div>
+    </div>
     <div v-if="isShow" class="main">
       <section class="main-left">
         <div class="main-left__topic">
@@ -25,7 +30,7 @@
         </div>
       </section>
       <section class="main-right">
-        <div class="main-right__answer-view" v-if="showAnswer">
+        <div class="main-right__answer-view" v-if="state.showAnswer">
           <div class="answer-view__topic">
             <div class="answer-view__topic--text">答え</div>
             <img
@@ -85,16 +90,16 @@
                   <div class="hint-mask__wrapper">
                     <div
                       class="hint-mask"
-                      v-show="!isAnimationEnd[0]"
+                      v-show="!state.isAnimationEnd[0]"
                       v-bind:class="{
-                        mask: isAnimationStart[0],
+                        mask: state.isAnimationStart[0],
                       }"
                       @click="animationStart(0)"
                       @animationend="animationEnd(0)"
                     >
                       <div
                         class="hint-mask__text"
-                        v-show="!isAnimationStart[0]"
+                        v-show="!state.isAnimationStart[0]"
                       >
                         Click!
                       </div>
@@ -119,16 +124,16 @@
                   <div class="hint-mask__wrapper">
                     <div
                       class="hint-mask"
-                      v-show="!isAnimationEnd[1]"
+                      v-show="!state.isAnimationEnd[1]"
                       v-bind:class="{
-                        mask: isAnimationStart[1],
+                        mask: state.isAnimationStart[1],
                       }"
                       @click="animationStart(1)"
                       @animationend="animationEnd(1)"
                     >
                       <div
                         class="hint-mask__text"
-                        v-show="!isAnimationStart[1]"
+                        v-show="!state.isAnimationStart[1]"
                       >
                         Click!
                       </div>
@@ -145,16 +150,16 @@
                   <div class="hint-mask__wrapper">
                     <div
                       class="hint-mask"
-                      v-show="!isAnimationEnd[2]"
+                      v-show="!state.isAnimationEnd[2]"
                       v-bind:class="{
-                        mask: isAnimationStart[2],
+                        mask: state.isAnimationStart[2],
                       }"
                       @click="animationStart(2)"
                       @animationend="animationEnd(2)"
                     >
                       <div
                         class="hint-mask__text"
-                        v-show="!isAnimationStart[2]"
+                        v-show="!state.isAnimationStart[2]"
                       >
                         Click!
                       </div>
@@ -169,15 +174,15 @@
               <input
                 class="answer__input"
                 placeholder="この記事のタイトルは？"
-                v-model="inputAnswer"
+                v-model="state.inputAnswer"
               />
             </div>
             <div class="answer__button--wrapper">
               <button class="answer__button" @click="clickAnswer">Go</button>
             </div>
           </div>
-          <div v-if="showLinkAnswer" class="link_answer__wrapper">
-            <div v-if="isAnswer" class="link_answer">
+          <div v-if="state.showLinkAnswer" class="link_answer__wrapper">
+            <div v-if="state.isAnswer" class="link_answer">
               <img
                 src="../../public/images/main_smile.svg"
                 class="link_answer__image"
@@ -191,7 +196,10 @@
               />
               <div class="link_answer__text">惜しい、不正解...！</div>
             </div>
-            <button class="link_answer__button" @click="showAnswer = true">
+            <button
+              class="link_answer__button"
+              @click="state.showAnswer = true"
+            >
               答えを見る
             </button>
           </div>
@@ -202,7 +210,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from "vue";
+import { defineComponent, reactive, computed, onMounted } from "vue";
 
 import { useStore } from "@/store";
 import { linkToOuterPage } from "@/utils";
@@ -236,7 +244,7 @@ export default defineComponent({
     });
     const titleUrl = computed(() => article.value.url);
     const isShow = computed(
-      () => !isLoading.value && selectedWords.value.length
+      () => !isLoading.value && !!selectedWords.value.length
     );
     const tweetText = computed(() => {
       if (state.isAnswer) {
@@ -300,6 +308,10 @@ export default defineComponent({
       const url = `https://twitter.com/intent/tweet?text=${tweetText.value}&url=https://www.quiz-wiki.com/`;
       linkToOuterPage(url);
     };
+
+    onMounted(async () => {
+      await clickPlay();
+    });
 
     return {
       state,

@@ -16,6 +16,18 @@
     justify-content: center;
     background-image: url(../../public/images/play_background.png);
   }
+  &__loading {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffffbb;
+    &--item {
+      height: 100px;
+      width: 100px;
+    }
+  }
 }
 .main-left {
   height: 80%;
