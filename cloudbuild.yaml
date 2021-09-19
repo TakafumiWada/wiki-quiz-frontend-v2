@@ -1,0 +1,13 @@
+steps:
+  - name: node:12
+    entrypoint: yarn
+    args: ["install"]
+  - name: node:12
+    entrypoint: yarn
+    args: ["run", "build"]
+    env:
+      - "VUE_APP_API_URL=${_API_URL}"
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    args: ["gcloud", "app", "deploy", "--version", "${_VERSION}", "app.yaml"]
+substitutions:
+  _VERSION: v2-0-1
