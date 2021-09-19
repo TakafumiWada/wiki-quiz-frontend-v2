@@ -1,15 +1,37 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="ja" prefix="og: http://ogp.me/ns#">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta property="og:title" content="QuizWiki" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="「子供のようなワクワクを」 QuizWikiは新たな発見を通じて、子供の頃のようなワクワクを届けるサービスです。"
+    />
+    <meta property="og:url" content="https://www.quiz-wiki.com/" />
+    <meta property="og:site_name" content="QuizWiki" />
+    <meta property="og:image" content="/images/QuizWiki_Logo.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@wdtk2525" />
+    <meta name="twitter:title" content="QuizWiki" />
+    <meta
+      name="twitter:description"
+      content="「子供のようなワクワクを」 QuizWikiは新たな発見を通じて、子供の頃のようなワクワクを届けるサービスです。"
+    />
+    <meta name="twitter:image" content="/images/QuizWiki_Logo.png" />
+    <meta name="twitter:url" content="https://www.quiz-wiki.com/" />
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
