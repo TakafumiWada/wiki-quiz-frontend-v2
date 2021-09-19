@@ -90,16 +90,16 @@
                   <div class="hint-mask__wrapper">
                     <div
                       class="hint-mask"
-                      v-show="!state.isAnimationEnd[0]"
+                      v-show="!animationState.isAnimationEnd[0]"
                       v-bind:class="{
-                        mask: state.isAnimationStart[0],
+                        mask: animationState.isAnimationStart[0],
                       }"
                       @click="animationStart(0)"
                       @animationend="animationEnd(0)"
                     >
                       <div
                         class="hint-mask__text"
-                        v-show="!state.isAnimationStart[0]"
+                        v-show="!animationState.isAnimationStart[0]"
                       >
                         Click!
                       </div>
@@ -124,16 +124,16 @@
                   <div class="hint-mask__wrapper">
                     <div
                       class="hint-mask"
-                      v-show="!state.isAnimationEnd[1]"
+                      v-show="!animationState.isAnimationEnd[1]"
                       v-bind:class="{
-                        mask: state.isAnimationStart[1],
+                        mask: animationState.isAnimationStart[1],
                       }"
                       @click="animationStart(1)"
                       @animationend="animationEnd(1)"
                     >
                       <div
                         class="hint-mask__text"
-                        v-show="!state.isAnimationStart[1]"
+                        v-show="!animationState.isAnimationStart[1]"
                       >
                         Click!
                       </div>
@@ -150,16 +150,16 @@
                   <div class="hint-mask__wrapper">
                     <div
                       class="hint-mask"
-                      v-show="!state.isAnimationEnd[2]"
+                      v-show="!animationState.isAnimationEnd[2]"
                       v-bind:class="{
-                        mask: state.isAnimationStart[2],
+                        mask: animationState.isAnimationStart[2],
                       }"
                       @click="animationStart(2)"
                       @animationend="animationEnd(2)"
                     >
                       <div
                         class="hint-mask__text"
-                        v-show="!state.isAnimationStart[2]"
+                        v-show="!animationState.isAnimationStart[2]"
                       >
                         Click!
                       </div>
@@ -216,41 +216,89 @@ import { useStore } from "@/store";
 import { linkToOuterPage } from "@/utils";
 import { ActionTypes, MutationTypes } from "../types/store";
 
+const animation = () => {
+  const state = reactive({
+    isAnimationStart: [false, false, false],
+    isAnimationEnd: [false, false, false],
+  });
+  const init = () => {
+    state.isAnimationStart = [false, false, false];
+    state.isAnimationEnd = [false, false, false];
+  };
+  const animationStart = (index: number) => {
+    state.isAnimationStart[index] = true;
+  };
+  const animationEnd = (index: number) => {
+    state.isAnimationEnd[index] = true;
+  };
+  return {
+    animationState: state,
+    animationInit: init,
+    animationStart,
+    animationEnd,
+  };
+};
+
+const storeData = () => {
+  const store = useStore();
+  const article = computed(() => store.state.article);
+  const searchResult = computed(() => store.state.searchResult);
+  const selectedWords = computed(() => store.state.selectedWords);
+  const selectedCategories = computed(() => store.state.selectedCategories);
+  const isLoading = computed(() => store.state.isLoading);
+
+  const getArticleData = async () => {
+    await store.dispatch(ActionTypes.GET_ARTICLE_DATA);
+  };
+  const searchArticleData = async (inputAnswer: string) => {
+    await store.dispatch(ActionTypes.SEARCH_ARTICLE_DATA, {
+      text: inputAnswer,
+    });
+  };
+  const endLoading = () => {
+    store.commit(MutationTypes.END_LOADING);
+  };
+
+  return {
+    article,
+    searchResult,
+    selectedWords,
+    selectedCategories,
+    isLoading,
+    getArticleData,
+    searchArticleData,
+    endLoading,
+  };
+};
+
 export default defineComponent({
   name: "Main",
   setup() {
-    const store = useStore();
-
+    const animationValue = animation();
+    const storeValue = storeData();
     const state = reactive({
       tryGetArticle: 0,
       inputAnswer: "",
       isAnswer: false,
       showLinkAnswer: false,
       showAnswer: false,
-      isAnimationStart: [false, false, false],
-      isAnimationEnd: [false, false, false],
     });
 
-    const article = computed(() => store.state.article);
-    const searchResult = computed(() => store.state.searchResult);
-    const selectedWords = computed(() => store.state.selectedWords);
-    const selectedCategories = computed(() => store.state.selectedCategories);
-    const isLoading = computed(() => store.state.isLoading);
-
-    const titleLength = computed(() => article.value.title.length);
+    const titleLength = computed(() => storeValue.article.value.title.length);
     const titleHead = computed(() => {
-      if (!article.value.title) return;
-      return article.value.title.charAt(0);
+      if (!storeValue.article.value.title) return;
+      return storeValue.article.value.title.charAt(0);
     });
-    const titleUrl = computed(() => article.value.url);
+    const titleUrl = computed(() => storeValue.article.value.url);
     const isShow = computed(
-      () => !isLoading.value && !!selectedWords.value.length
+      () =>
+        !storeValue.isLoading.value && !!storeValue.selectedWords.value.length
     );
     const tweetText = computed(() => {
       if (state.isAnswer) {
-        return `すごい！ あなたは"${article.value.title}"を当てました🤩`;
+        return `すごい！ あなたは"${storeValue.article.value.title}"を当てました🤩`;
       } else {
-        return `残念... あなたは"${article.value.title}"を"${state.inputAnswer}"と答えました...😭`;
+        return `残念... あなたは"${storeValue.article.value.title}"を"${state.inputAnswer}"と答えました...😭`;
       }
     });
 
@@ -260,14 +308,13 @@ export default defineComponent({
       state.isAnswer = false;
       state.showLinkAnswer = false;
       state.showAnswer = false;
-      state.isAnimationStart = [false, false, false];
-      state.isAnimationEnd = [false, false, false];
+      animationValue.animationInit();
     };
     const getArticle = async () => {
       if (state.tryGetArticle < 3) {
         state.tryGetArticle++;
-        await store.dispatch(ActionTypes.GET_ARTICLE_DATA);
-        if (!article.value.title) await getArticle();
+        await storeValue.getArticleData();
+        if (!storeValue.article.value.title) await getArticle();
       }
     };
     const clickPlay = async () => {
@@ -277,31 +324,23 @@ export default defineComponent({
         if (state.tryGetArticle > 2)
           throw new Error("アクセス回数が上限を超えました");
       } catch (err) {
-        store.commit(MutationTypes.END_LOADING);
+        storeValue.endLoading();
         alert("記事の取得に失敗しました。ページを再起動してください。");
       }
     };
     const searchAnswer = async () => {
       if (!state.inputAnswer) return;
-      await store.dispatch(ActionTypes.SEARCH_ARTICLE_DATA, {
-        text: state.inputAnswer,
-      });
+      await storeValue.searchArticleData(state.inputAnswer);
     };
     const clickAnswer = async () => {
       try {
         await searchAnswer();
         state.showLinkAnswer = true;
-        state.isAnswer = searchResult.value === article.value.title;
+        state.isAnswer =
+          storeValue.searchResult.value === storeValue.article.value.title;
       } catch (err) {
         alert("入力値が不正です。");
       }
-    };
-
-    const animationStart = (index: number) => {
-      state.isAnimationStart[index] = true;
-    };
-    const animationEnd = (index: number) => {
-      state.isAnimationEnd[index] = true;
     };
 
     const tweetAnswer = () => {
@@ -315,19 +354,15 @@ export default defineComponent({
 
     return {
       state,
-      article,
-      selectedWords,
-      selectedCategories,
-      isLoading,
       titleLength,
       titleHead,
       titleUrl,
       isShow,
       clickPlay,
       clickAnswer,
-      animationStart,
-      animationEnd,
       tweetAnswer,
+      ...animationValue,
+      ...storeValue,
     };
   },
 });
