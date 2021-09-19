@@ -9,7 +9,7 @@ export const articleApi = {
   },
   searchArticle: (text: string): Promise<string> => {
     return client()
-      .get<string>("/article/search", { params: text })
+      .get<string>("/article/search", { params: { text } })
       .then((res) => res.data);
   },
 };
