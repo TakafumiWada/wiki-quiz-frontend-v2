@@ -1,4 +1,10 @@
 module.exports = {
+  pages: {
+    index: {
+      entry: "src/main.ts",
+      title: "QuizWiki",
+    },
+  },
   css: {
     loaderOptions: {
       scss: {
