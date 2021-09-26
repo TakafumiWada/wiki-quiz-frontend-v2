@@ -214,7 +214,7 @@ import { defineComponent, reactive, computed, onMounted } from "vue";
 
 import { useStore } from "@/store";
 import { linkToOuterPage } from "@/utils";
-import { ActionTypes, MutationTypes } from "../types/store";
+import { ActionTypes, MutationTypes } from "@/store/types";
 
 const animation = () => {
   const state = reactive({
