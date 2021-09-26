@@ -17,13 +17,10 @@ const randomSelect = (array: Array<string>, num: number): Array<string> => {
 };
 
 export const mutations: MutationTree<ArticleState> = {
-  [MutationTypes.GET_ARTICLE_DATA]: (
-    state: ArticleState,
-    payload: Article
-  ): void => {
+  [MutationTypes.GET_ARTICLE_DATA]: (state, payload: Article): void => {
     state.article = payload;
   },
-  [MutationTypes.SELECT_WORDS]: (state: ArticleState): void => {
+  [MutationTypes.SELECT_WORDS]: (state): void => {
     if (state.article.title) {
       state.selectedWords = randomSelect(
         state.article.words,
@@ -31,7 +28,7 @@ export const mutations: MutationTree<ArticleState> = {
       );
     }
   },
-  [MutationTypes.SELECT_CATEGORIES]: (state: ArticleState): void => {
+  [MutationTypes.SELECT_CATEGORIES]: (state): void => {
     if (!state.article.title) return;
     if (state.article.categories.length < 3) {
       state.selectedCategories = state.article.categories;
@@ -43,15 +40,15 @@ export const mutations: MutationTree<ArticleState> = {
     );
   },
   [MutationTypes.GET_SEARCH_RESULT]: (
-    state: ArticleState,
+    state,
     payload: { searchResult: string }
   ): void => {
     state.searchResult = payload.searchResult;
   },
-  [MutationTypes.START_LOADING]: (state: ArticleState): void => {
+  [MutationTypes.START_LOADING]: (state): void => {
     state.isLoading = true;
   },
-  [MutationTypes.END_LOADING]: (state: ArticleState): void => {
+  [MutationTypes.END_LOADING]: (state): void => {
     state.isLoading = false;
   },
 };
