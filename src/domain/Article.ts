@@ -1,6 +1,6 @@
 export type Article = {
   categories: Array<string>;
-  contents: Array<string>;
+  contents: Object;
   title: string;
   topic: Object;
   words: Array<string>;
