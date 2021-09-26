@@ -1,6 +1,6 @@
 import { Article } from "@/domain/Article";
 
-export interface ArticleStore {
+export interface ArticleState {
   article: Article;
   searchResult: string;
   selectedCategoriesNumber: number;
