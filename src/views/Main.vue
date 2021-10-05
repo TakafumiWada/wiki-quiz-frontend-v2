@@ -285,9 +285,7 @@ export default defineComponent({
       return storeValue.question.value.title.charAt(0);
     });
     const titleUrl = computed(() => storeValue.question.value.url);
-    const isShow = computed(
-      () => !storeValue.isLoading.value //&& !!storeValue.question.value.title
-    );
+    const isShow = computed(() => !storeValue.isLoading.value);
     const tweetText = computed(() => {
       if (storeValue.searchResult) {
         return `すごい！ あなたは"${storeValue.question.value.title}"を当てました🤩`;

@@ -45,7 +45,6 @@
     <section class="howto" id="howto">
       <div class="howto__topic">How To</div>
       <div class="howto__contents">
-        <!-- ここはコンポーネントで切り出す -->
         <HowToSection
           sectionNumer="one"
           topic="①考える。"

@@ -4,18 +4,6 @@ import { ActionTypes, MutationTypes } from "@/store/types";
 import { mockQuestion } from "./mockState";
 
 jest.mock("@/api", () => ({
-  // articleApi: {
-  //   getArticle: () => {
-  //     return new Promise((resolve) => {
-  //       resolve(mockQuestion);
-  //     });
-  //   },
-  //   searchArticle: (searchText: string) => {
-  //     return new Promise((resolve) => {
-  //       resolve(searchText);
-  //     });
-  //   },
-  // },
   QuestionApiFactory: () => {
     return {
       questionGet: () => {
