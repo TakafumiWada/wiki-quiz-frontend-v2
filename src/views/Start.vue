@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRouter, RouteLocationRaw } from "vue-router";
+import { useRouter } from "vue-router";
 
 import { linkToInnerPage } from "@/utils";
 
