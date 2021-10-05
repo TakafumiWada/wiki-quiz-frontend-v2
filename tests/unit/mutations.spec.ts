@@ -2,32 +2,20 @@ import { mutations } from "@/store/mutations";
 import { state as initialState } from "@/store/state";
 import { MutationTypes } from "@/store/types";
 
-import { mockArticle, articleState, loadingState } from "./mockState";
+import { mockQuestion, loadingState } from "./mockState";
 
 describe("mutation", () => {
   it("GET_ARTICLE_DATA", () => {
     const state = initialState;
-    mutations[MutationTypes.GET_ARTICLE_DATA](state, mockArticle);
-    expect(state.article).toEqual(mockArticle);
-  });
-
-  it("SELECT_WORDS", () => {
-    const state = articleState;
-    mutations[MutationTypes.SELECT_WORDS](state);
-    expect(state.selectedWords.length).toBe(state.selectedWordsNumber);
-  });
-
-  it("SELECT_CATEGORIES", () => {
-    const state = articleState;
-    mutations[MutationTypes.SELECT_CATEGORIES](initialState);
-    expect(state.selectedWords.length).toBe(state.selectedWordsNumber);
+    mutations[MutationTypes.GET_QUESTION_DATA](state, mockQuestion);
+    expect(state.question).toEqual(mockQuestion);
   });
 
   it("GET_SEARCH_RESULT", () => {
     const state = initialState;
-    const searchResult = "search result";
-    mutations[MutationTypes.GET_SEARCH_RESULT](state, { searchResult });
-    expect(state.searchResult).toBe(searchResult);
+    const searchResult = { isCorrect: true };
+    mutations[MutationTypes.GET_SEARCH_RESULT](state, searchResult);
+    expect(state.searchResult).toBe(searchResult.isCorrect);
   });
 
   it("START_LOADING", () => {

@@ -1,49 +1,16 @@
 import { MutationTree } from "vuex";
-import { ArticleState, MutationTypes } from "./types";
-import { Article } from "@/domain/Article";
-import { LIMITED_WORD_LENGTH } from "@/config";
+import { QuestionState, MutationTypes } from "./types";
+import { Question } from "@/domain/Question";
 
-const randomSelect = (array: Array<string>, num: number): Array<string> => {
-  const newArray: Array<string> = [];
-  let rand = 0;
-  while (newArray.length < num && array.length > 0) {
-    rand = Math.floor(Math.random() * array.length);
-    if (array[rand].length <= LIMITED_WORD_LENGTH) {
-      newArray.push(array[rand]);
-      array.splice(rand, 1);
-    }
-  }
-  return newArray;
-};
-
-export const mutations: MutationTree<ArticleState> = {
-  [MutationTypes.GET_ARTICLE_DATA]: (state, payload: Article): void => {
-    state.article = payload;
-  },
-  [MutationTypes.SELECT_WORDS]: (state): void => {
-    if (state.article.title) {
-      state.selectedWords = randomSelect(
-        state.article.words,
-        state.selectedWordsNumber
-      );
-    }
-  },
-  [MutationTypes.SELECT_CATEGORIES]: (state): void => {
-    if (!state.article.title) return;
-    if (state.article.categories.length < 3) {
-      state.selectedCategories = state.article.categories;
-      return;
-    }
-    state.selectedCategories = randomSelect(
-      state.article.categories,
-      state.selectedCategoriesNumber
-    );
+export const mutations: MutationTree<QuestionState> = {
+  [MutationTypes.GET_QUESTION_DATA]: (state, payload: Question): void => {
+    state.question = payload;
   },
   [MutationTypes.GET_SEARCH_RESULT]: (
     state,
-    payload: { searchResult: string }
+    payload: { isCorrect: boolean }
   ): void => {
-    state.searchResult = payload.searchResult;
+    state.searchResult = payload.isCorrect;
   },
   [MutationTypes.START_LOADING]: (state): void => {
     state.isLoading = true;

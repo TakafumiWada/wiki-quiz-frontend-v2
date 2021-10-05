@@ -1,25 +1,19 @@
-import { Article } from "@/domain/Article";
+import { Question } from "@/domain/Question";
 
-export interface ArticleState {
-  article: Article;
-  searchResult: string;
-  selectedCategoriesNumber: number;
-  selectedCategories: Array<string>;
-  selectedWordsNumber: number;
-  selectedWords: Array<string>;
+export interface QuestionState {
+  question: Question;
+  searchResult: boolean;
   isLoading: boolean;
 }
 
 export enum MutationTypes {
-  GET_ARTICLE_DATA = "GET_ARTICLE_DATA",
-  SELECT_WORDS = "SELECT_WORDS",
-  SELECT_CATEGORIES = "SELECT_CATEGORIES",
+  GET_QUESTION_DATA = "GET_QUESTION_DATA",
   GET_SEARCH_RESULT = "GET_SEARCH_RESULT",
   START_LOADING = "START_LOADING",
   END_LOADING = "END_LOADING",
 }
 
 export enum ActionTypes {
-  GET_ARTICLE_DATA = "GET_ARTICLE_DATA",
-  SEARCH_ARTICLE_DATA = "SEARCH_ARTICLE_DATA",
+  GET_QUESTION_DATA = "GET_ARTICLE_DATA",
+  SEARCH_QUESTION_DATA = "SEARCH_ARTICLE_DATA",
 }

@@ -1,20 +1,13 @@
-import { ArticleState } from "./types";
-import { SELECTED_CATEGORIES_NUMBER, SELECTED_WORDS_NUMBER } from "@/config";
+import { QuestionState } from "./types";
 
-export const state: ArticleState = {
-  article: {
-    categories: [],
-    contents: [],
+export const state: QuestionState = {
+  question: {
     title: "",
-    topic: {},
+    categories: [],
     words: [],
     image: "",
     url: "",
   },
-  searchResult: "",
-  selectedCategoriesNumber: SELECTED_CATEGORIES_NUMBER,
-  selectedCategories: [],
-  selectedWordsNumber: SELECTED_WORDS_NUMBER,
-  selectedWords: [],
+  searchResult: false,
   isLoading: false,
 };
