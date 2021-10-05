@@ -18,7 +18,7 @@
         <div class="word__container">
           <div
             class="word"
-            v-for="(word, index) in selectedWords"
+            v-for="(word, index) in question.words"
             :key="`wordIndex:${index}`"
           >
             <div class="word__round"></div>
@@ -41,13 +41,13 @@
           <div class="answer-view__image--wrapper">
             <img
               class="answer-view__image"
-              :src="article.image"
+              :src="question.image"
               alt="正解画像"
             />
           </div>
           <div class="answer-view__text">
             <a :href="titleUrl" target="_blank"
-              >A.&nbsp;&nbsp;&nbsp;&nbsp;{{ article.title }}</a
+              >A.&nbsp;&nbsp;&nbsp;&nbsp;{{ question.title }}</a
             >
           </div>
           <div class="answer-view__subtext">
@@ -115,7 +115,7 @@
                   <div class="hint__category--hint--inner">
                     <div
                       class="hint__category--hint--element"
-                      v-for="category in selectedCategories"
+                      v-for="category in question.categories"
                       :key="category"
                     >
                       {{ category }}
@@ -182,7 +182,7 @@
             </div>
           </div>
           <div v-if="state.showLinkAnswer" class="link_answer__wrapper">
-            <div v-if="state.isAnswer" class="link_answer">
+            <div v-if="state.searchResult" class="link_answer">
               <img
                 src="../../public/images/main_smile.svg"
                 class="link_answer__image"
@@ -241,18 +241,17 @@ const animation = () => {
 
 const storeData = () => {
   const store = useStore();
-  const article = computed(() => store.state.article);
+  const question = computed(() => store.state.question);
   const searchResult = computed(() => store.state.searchResult);
-  const selectedWords = computed(() => store.state.selectedWords);
-  const selectedCategories = computed(() => store.state.selectedCategories);
   const isLoading = computed(() => store.state.isLoading);
 
-  const getArticleData = async () => {
-    await store.dispatch(ActionTypes.GET_ARTICLE_DATA);
+  const getQuestionData = async () => {
+    await store.dispatch(ActionTypes.GET_QUESTION_DATA);
   };
-  const searchArticleData = async (inputAnswer: string) => {
-    await store.dispatch(ActionTypes.SEARCH_ARTICLE_DATA, {
-      text: inputAnswer,
+  const searchQuestionData = async (inputAnswer: string) => {
+    await store.dispatch(ActionTypes.SEARCH_QUESTION_DATA, {
+      searchWord: inputAnswer,
+      answer: store.state.question.title,
     });
   };
   const endLoading = () => {
@@ -260,13 +259,11 @@ const storeData = () => {
   };
 
   return {
-    article,
+    question,
     searchResult,
-    selectedWords,
-    selectedCategories,
     isLoading,
-    getArticleData,
-    searchArticleData,
+    getQuestionData,
+    searchQuestionData,
     endLoading,
   };
 };
@@ -277,69 +274,53 @@ export default defineComponent({
     const animationValue = animation();
     const storeValue = storeData();
     const state = reactive({
-      tryGetArticle: 0,
       inputAnswer: "",
-      isAnswer: false,
       showLinkAnswer: false,
       showAnswer: false,
     });
 
-    const titleLength = computed(() => storeValue.article.value.title.length);
+    const titleLength = computed(() => storeValue.question.value.title.length);
     const titleHead = computed(() => {
-      if (!storeValue.article.value.title) return;
-      return storeValue.article.value.title.charAt(0);
+      if (!storeValue.question.value.title) return;
+      return storeValue.question.value.title.charAt(0);
     });
-    const titleUrl = computed(() => storeValue.article.value.url);
+    const titleUrl = computed(() => storeValue.question.value.url);
     const isShow = computed(
-      () =>
-        !storeValue.isLoading.value && !!storeValue.selectedWords.value.length
+      () => !storeValue.isLoading.value //&& !!storeValue.question.value.title
     );
     const tweetText = computed(() => {
-      if (state.isAnswer) {
-        return `すごい！ あなたは"${storeValue.article.value.title}"を当てました🤩`;
+      if (storeValue.searchResult) {
+        return `すごい！ あなたは"${storeValue.question.value.title}"を当てました🤩`;
       } else {
-        return `残念... あなたは"${storeValue.article.value.title}"を"${state.inputAnswer}"と答えました...😭`;
+        return `残念... あなたは"${storeValue.question.value.title}"を"${state.inputAnswer}"と答えました...😭`;
       }
     });
 
     const init = () => {
-      state.tryGetArticle = 0;
       state.inputAnswer = "";
-      state.isAnswer = false;
       state.showLinkAnswer = false;
       state.showAnswer = false;
       animationValue.animationInit();
     };
-    const getArticle = async () => {
-      if (state.tryGetArticle < 3) {
-        state.tryGetArticle++;
-        await storeValue.getArticleData();
-        if (!storeValue.article.value.title) await getArticle();
-      }
-    };
     const clickPlay = async () => {
       try {
         init();
-        await getArticle();
-        if (state.tryGetArticle > 2)
-          throw new Error("アクセス回数が上限を超えました");
+        await storeValue.getQuestionData();
       } catch (err) {
         storeValue.endLoading();
-        alert("記事の取得に失敗しました。ページを再起動してください。");
+        alert("記事の取得に失敗しました。ページを再起動してください。"); //TODO
       }
     };
     const searchAnswer = async () => {
       if (!state.inputAnswer) return;
-      await storeValue.searchArticleData(state.inputAnswer);
+      await storeValue.searchQuestionData(state.inputAnswer);
     };
     const clickAnswer = async () => {
       try {
         await searchAnswer();
         state.showLinkAnswer = true;
-        state.isAnswer =
-          storeValue.searchResult.value === storeValue.article.value.title;
       } catch (err) {
-        alert("入力値が不正です。");
+        alert("入力値が不正です。"); //TODO
       }
     };
 
