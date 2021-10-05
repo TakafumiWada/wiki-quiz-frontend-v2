@@ -82,7 +82,7 @@ export interface Question {
      * @type {string}
      * @memberof Question
      */
-    images?: string;
+    image?: string;
     /**
      * 
      * @type {string}
