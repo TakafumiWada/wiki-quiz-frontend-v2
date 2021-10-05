@@ -303,25 +303,16 @@ export default defineComponent({
       animationValue.animationInit();
     };
     const clickPlay = async () => {
-      try {
-        init();
-        await storeValue.getQuestionData();
-      } catch (err) {
-        storeValue.endLoading();
-        alert("記事の取得に失敗しました。ページを再起動してください。"); //TODO
-      }
+      init();
+      await storeValue.getQuestionData();
     };
     const searchAnswer = async () => {
       if (!state.inputAnswer) return;
       await storeValue.searchQuestionData(state.inputAnswer);
     };
     const clickAnswer = async () => {
-      try {
-        await searchAnswer();
-        state.showLinkAnswer = true;
-      } catch (err) {
-        alert("入力値が不正です。"); //TODO
-      }
+      await searchAnswer();
+      state.showLinkAnswer = true;
     };
 
     const tweetAnswer = () => {
