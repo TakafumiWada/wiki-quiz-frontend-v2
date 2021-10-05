@@ -9,7 +9,7 @@
           <div>さあ、どんな言葉との出会いが待っているかな？</div>
         </div>
         <div class="top__topic--button">
-          <button @click="linkToInnerPage('/start')">
+          <button @click="linkToInnerPage(router, '/start')">
             <div>Quizに挑む</div>
           </button>
         </div>
@@ -41,13 +41,7 @@
         </div>
       </div>
     </section>
-    <section class="section-footer">
-      <div class="section-footer__button">
-        <button @click="linkToInnerPage('/start')">
-          <div>Quizに挑む</div>
-        </button>
-      </div>
-    </section>
+    <SectionFooter />
     <section class="howto" id="howto">
       <div class="howto__topic">How To</div>
       <div class="howto__contents">
@@ -102,34 +96,28 @@
         </div>
       </div>
     </section>
-    <!-- ここはコンポーネントで切り出す -->
-    <section class="section-footer">
-      <div class="section-footer__button">
-        <button @click="linkToInnerPage('/start')">
-          <div>Quizに挑む</div>
-        </button>
-      </div>
-    </section>
+    <SectionFooter />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRouter, RouteLocationRaw } from "vue-router";
+import { useRouter } from "vue-router";
 
-import { linkToOuterPage } from "@/utils";
+import { linkToInnerPage, linkToOuterPage } from "@/utils";
 import { NOTE_URL } from "@/config";
+import SectionFooter from "@/components/SectionFooter.vue";
 
 export default defineComponent({
   name: "Home",
+  components: {
+    SectionFooter,
+  },
   setup() {
     const router = useRouter();
 
-    const linkToInnerPage = (route: RouteLocationRaw) => {
-      router.push(route);
-    };
-
     return {
+      router,
       NOTE_URL,
       linkToOuterPage,
       linkToInnerPage,

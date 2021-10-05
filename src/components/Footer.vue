@@ -4,16 +4,24 @@
       <div class="footer__topic">QuizWiki</div>
       <div class="footer__links">
         <div class="footer__link">
-          <a @click="linkToInnerPage({ path: '/', hash: '#top' })">TOP</a>
+          <a @click="linkToInnerPage(router, { path: '/', hash: '#top' })"
+            >TOP</a
+          >
         </div>
         <div class="footer__link footer__link--border-left">
-          <a @click="linkToInnerPage({ path: '/', hash: '#about' })">About</a>
+          <a @click="linkToInnerPage(router, { path: '/', hash: '#about' })"
+            >About</a
+          >
         </div>
         <div class="footer__link footer__link--border-left">
-          <a @click="linkToInnerPage({ path: '/', hash: '#howto' })">HowTo</a>
+          <a @click="linkToInnerPage(reouter, { path: '/', hash: '#howto' })"
+            >HowTo</a
+          >
         </div>
         <div class="footer__link footer__link--border-left">
-          <a @click="linkToInnerPage({ path: '/start' })">クイズに挑む</a>
+          <a @click="linkToInnerPage(router, { path: '/start' })"
+            >クイズに挑む</a
+          >
         </div>
       </div>
       <div class="footer__icons">
@@ -39,9 +47,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRouter, RouteLocationRaw } from "vue-router";
+import { useRouter } from "vue-router";
 
-import { linkToOuterPage } from "@/utils";
+import { linkToInnerPage, linkToOuterPage } from "@/utils";
 import { TWITTER_URL, NOTE_URL, FACEBOOK_URL } from "@/config";
 
 export default defineComponent({
@@ -49,14 +57,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
-    const linkToInnerPage = (route: RouteLocationRaw) => {
-      router.push(route).catch(() => {
-        router.push("/");
-        router.push(route);
-      });
-    };
-
     return {
+      router,
       TWITTER_URL,
       NOTE_URL,
       FACEBOOK_URL,

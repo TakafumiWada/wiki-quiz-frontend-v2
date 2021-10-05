@@ -130,39 +130,6 @@ $border-size: 1px;
     }
   }
 }
-.section-footer {
-  height: 15vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $home-color;
-  &__button {
-    button {
-      height: 50px;
-      width: 300px;
-      font-size: 24px;
-      letter-spacing: 1.65px;
-      color: white;
-      background-color: transparent;
-      border: 2px solid white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      &:hover {
-        letter-spacing: 10px;
-      }
-      div {
-        height: 40px;
-        width: 220px;
-        line-height: 40px;
-        font-family: $noto-sans;
-        transition-duration: 0.3s;
-      }
-    }
-  }
-}
 .howto {
   height: 85vh;
   width: 100vw;

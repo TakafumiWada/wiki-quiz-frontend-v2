@@ -1,3 +1,12 @@
+import { Router, RouteLocationRaw } from "vue-router";
+
+export const linkToInnerPage = (router: Router, route: RouteLocationRaw) => {
+  router.push(route).catch(() => {
+    router.push("/");
+    router.push(route);
+  });
+};
+
 export const linkToOuterPage = (url: string): void => {
   window.open(url, "_blank");
 };

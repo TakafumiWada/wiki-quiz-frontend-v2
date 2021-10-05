@@ -4,7 +4,7 @@
       <div>新たな発見を求めて</div>
       <div><span class="start__text--en">QuizWiki</span>に挑みますか？</div>
     </div>
-    <div class="start__button" @click="linkToInnerPage('/main')">
+    <div class="start__button" @click="linkToInnerPage(router, '/main')">
       <div class="start__button--sub">挑む</div>
       <div class="start__button--main">TRY</div>
     </div>
@@ -15,16 +15,15 @@
 import { defineComponent } from "vue";
 import { useRouter, RouteLocationRaw } from "vue-router";
 
+import { linkToInnerPage } from "@/utils";
+
 export default defineComponent({
   name: "Start",
   setup() {
     const router = useRouter();
 
-    const linkToInnerPage = (route: RouteLocationRaw) => {
-      router.push(route);
-    };
-
     return {
+      router,
       linkToInnerPage,
     };
   },
