@@ -46,54 +46,26 @@
       <div class="howto__topic">How To</div>
       <div class="howto__contents">
         <!-- ここはコンポーネントで切り出す -->
-        <div class="howto__section howto__section--one">
-          <div class="howto__section--inner">
-            <div class="howto__section--topic">①考える。</div>
-            <div class="howto__section--image">
-              <img src="../../public/images/about_1_white.png" alt="" />
-            </div>
-            <div class="howto__section--subtopic">
-              関連ワードから記事のタイトルを類推しよう。
-            </div>
-          </div>
-        </div>
-        <div class="howto__section howto__section--two">
-          <div class="howto__section--inner">
-            <div class="howto__section--topic">②もっと考える。</div>
-            <div class="howto__section--image">
-              <img src="../../public/images/about_2_white.png" alt="" />
-            </div>
-            <div class="howto__section--subtopic">
-              さらに細かいヒントもチェックしよう。
-            </div>
-          </div>
-        </div>
-        <div class="howto__section howto__section--three">
-          <div class="howto__section--inner">
-            <div class="howto__section--topic howto__section--topic--under">
-              ③発見する。
-            </div>
-            <div class="howto__section--image">
-              <img src="../../public/images/about_3_white.png" alt="" />
-            </div>
-            <div class="howto__section--subtopic">
-              解答後、実際に記事を見に行こう。
-            </div>
-          </div>
-        </div>
-        <div class="howto__section howto__section--four">
-          <div class="howto__section--inner">
-            <div class="howto__section--topic howto__section--topic--under">
-              ④世界が広がる。
-            </div>
-            <div class="howto__section--image">
-              <img src="../../public/images/about_4_white.png" alt="" />
-            </div>
-            <div class="howto__section--subtopic">
-              また一つ、あなたの世界が広がりました。
-            </div>
-          </div>
-        </div>
+        <HowToSection
+          sectionNumer="one"
+          topic="①考える。"
+          subTopic="関連ワードから記事のタイトルを類推しよう。"
+        />
+        <HowToSection
+          sectionNumer="two"
+          topic="②もっと考える。"
+          subTopic="さらに細かいヒントもチェックしよう。"
+        />
+        <HowToSection
+          sectionNumer="three"
+          topic="③発見する。"
+          subTopic="解答後、実際に記事を見に行こう。"
+        />
+        <HowToSection
+          sectionNumer="four"
+          topic="④世界が広がる。"
+          subTopic="また一つ、あなたの世界が広がりました。"
+        />
       </div>
     </section>
     <SectionFooter />
@@ -107,11 +79,13 @@ import { useRouter } from "vue-router";
 import { linkToInnerPage, linkToOuterPage } from "@/utils";
 import { NOTE_URL } from "@/config";
 import SectionFooter from "@/components/SectionFooter.vue";
+import HowToSection from "@/components/HowToSection.vue";
 
 export default defineComponent({
   name: "Home",
   components: {
     SectionFooter,
+    HowToSection,
   },
   setup() {
     const router = useRouter();
