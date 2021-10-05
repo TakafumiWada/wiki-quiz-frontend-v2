@@ -1,5 +1,4 @@
 import { QuestionState } from "@/store/types";
-import { SELECTED_CATEGORIES_NUMBER, SELECTED_WORDS_NUMBER } from "@/config";
 import { Question } from "@/domain/Question";
 
 export const mockQuestion: Question = {
