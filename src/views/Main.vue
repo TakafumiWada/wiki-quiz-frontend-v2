@@ -41,7 +41,7 @@
             />
           </div>
           <div class="answer-view__text">
-            <a :href="titleUrl" target="_blank"
+            <a :href="question.url" target="_blank"
               >A.&nbsp;&nbsp;&nbsp;&nbsp;{{ question.title }}</a
             >
           </div>
@@ -53,7 +53,7 @@
               あなたの答えをシェアしよう！
             </div>
             <div class="answer-view__tweet--button--wrapper">
-              <div class="answer-view__tweet--button" @click="tweetAnswer">
+              <div class="answer-view__tweet--button" @click="clickTweet">
                 <img
                   class="answer-view__tweet--button--image"
                   src="../../public/images/main_twitter.png"
@@ -205,13 +205,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, onMounted } from "vue";
+import { defineComponent, reactive, onMounted } from "vue";
 
-import { linkToOuterPage } from "@/utils";
 import Loading from "@/components/common/Loading.vue";
 import { useAnimation } from "@/composable/useAnimation";
-import { useStoreQuestion } from "@/composable/useStoreQuestion";
+import { useQuestion } from "@/composable/useQuestion";
+import { useStore } from "@/store";
 import { useHint } from "@/composable/useHint";
+import { useTweet } from "@/composable/useTweet";
 
 export default defineComponent({
   name: "Main",
@@ -220,44 +221,38 @@ export default defineComponent({
   },
   setup() {
     const animation = useAnimation();
-    const store = useStoreQuestion();
+    const store = useQuestion(useStore());
     const hint = useHint(store.question);
+    const tweet = useTweet();
+
     const state = reactive({
       inputAnswer: "",
       showLinkAnswer: false,
       showAnswer: false,
     });
-    const titleUrl = computed(() => store.question.value.url);
-    const tweetText = computed(() => {
-      if (store.searchResult) {
-        return `すごい！ あなたは"${store.question.value.title}"を当てました🤩`;
-      } else {
-        return `残念... あなたは"${store.question.value.title}"を"${state.inputAnswer}"と答えました...😭`;
-      }
-    });
-
     const init = () => {
       state.inputAnswer = "";
       state.showLinkAnswer = false;
       state.showAnswer = false;
       animation.animationInit();
     };
+    const clickTweet = () => {
+      tweet.tweetAnswer(
+        store.question.value.title,
+        state.inputAnswer,
+        store.searchResult.value
+      );
+    };
     const clickPlay = async () => {
       init();
       await store.getQuestionData();
     };
     const searchAnswer = async () => {
-      if (!state.inputAnswer) return;
       await store.searchQuestionData(state.inputAnswer);
     };
     const clickAnswer = async () => {
       await searchAnswer();
       state.showLinkAnswer = true;
-    };
-
-    const tweetAnswer = () => {
-      const url = `https://twitter.com/intent/tweet?text=${tweetText.value}&url=https://www.quiz-wiki.com/`;
-      linkToOuterPage(url);
     };
 
     onMounted(async () => {
@@ -266,10 +261,9 @@ export default defineComponent({
 
     return {
       state,
-      titleUrl,
       clickPlay,
       clickAnswer,
-      tweetAnswer,
+      clickTweet,
       ...animation,
       ...store,
       ...hint,
