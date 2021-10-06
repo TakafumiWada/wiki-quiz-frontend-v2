@@ -1,9 +1,8 @@
-import { useStore } from "@/store";
 import { computed } from "vue";
-import { ActionTypes, MutationTypes } from "@/store/types";
+import { Store } from "vuex";
+import { ActionTypes, MutationTypes, QuestionState } from "@/store/types";
 
-export const useStoreQuestion = () => {
-  const store = useStore();
+export const useQuestion = (store: Store<QuestionState>) => {
   const question = computed(() => store.state.question);
   const searchResult = computed(() => store.state.searchResult);
   const isLoading = computed(() => store.state.isLoading);
@@ -12,6 +11,7 @@ export const useStoreQuestion = () => {
     await store.dispatch(ActionTypes.GET_QUESTION_DATA);
   };
   const searchQuestionData = async (inputAnswer: string) => {
+    if (!inputAnswer) return;
     await store.dispatch(ActionTypes.SEARCH_QUESTION_DATA, {
       searchWord: inputAnswer,
       answer: store.state.question.title,
