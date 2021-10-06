@@ -78,8 +78,8 @@ import { useRouter } from "vue-router";
 import { linkToInnerPage, linkToOuterPage } from "@/utils";
 import { NOTE_URL } from "@/config";
 import { SectionNum } from "@/types/Section";
-import SectionFooter from "@/components/SectionFooter.vue";
-import HowToSection from "@/components/HowToSection.vue";
+import SectionFooter from "@/components/Home/SectionFooter.vue";
+import HowToSection from "@/components/Home/HowToSection.vue";
 
 export default defineComponent({
   name: "Home",

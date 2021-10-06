@@ -210,7 +210,7 @@ import { defineComponent, reactive, computed, onMounted } from "vue";
 import { useStore } from "@/store";
 import { linkToOuterPage } from "@/utils";
 import { ActionTypes, MutationTypes } from "@/store/types";
-import Loading from "@/components/Loading.vue";
+import Loading from "@/components/common/Loading.vue";
 
 const animation = () => {
   const state = reactive({

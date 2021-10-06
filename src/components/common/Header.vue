@@ -47,7 +47,7 @@ export default defineComponent({
     width: 120px;
     margin: 0 15px;
     z-index: 100;
-    background-image: url(../../public/images/QuizWiki_Logo.png);
+    background-image: url(../../../public/images/QuizWiki_Logo.png);
     background-size: cover;
   }
 }

@@ -134,15 +134,15 @@ export default defineComponent({
   margin: 3vh 3vh;
   cursor: pointer;
   &--twitter {
-    background-image: url(../../public/images/footer_twitter.png);
+    background-image: url(../../../public/images/footer_twitter.png);
     background-size: cover;
   }
   &--facebook {
-    background-image: url(../../public/images/footer_facebook.png);
+    background-image: url(../../../public/images/footer_facebook.png);
     background-size: cover;
   }
   &--note {
-    background-image: url(../../public/images/footer_note.png);
+    background-image: url(../../../public/images/footer_note.png);
     background-size: cover;
   }
 }
