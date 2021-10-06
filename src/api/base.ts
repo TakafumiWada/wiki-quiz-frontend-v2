@@ -18,7 +18,7 @@ import { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 
-export const BASE_PATH = "https://wiki-quiz-backend-dev.an.r.appspot.com/v2".replace(/\/+$/, "");
+export const BASE_PATH = "https://wiki-quiz-backend-prod.an.r.appspot.com/v2".replace(/\/+$/, "");
 
 /**
  *
