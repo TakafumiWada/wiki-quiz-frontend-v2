@@ -1,7 +1,7 @@
 <template>
   <div class="main__wrapper">
     <Loading :isLoading="isLoading" />
-    <div v-if="isShow" class="main">
+    <div v-if="!isLoading" class="main">
       <section class="main-left">
         <div class="main-left__topic">
           <div class="main-left__topic--text">関連ワード</div>
@@ -177,7 +177,7 @@
             </div>
           </div>
           <div v-if="state.showLinkAnswer" class="link_answer__wrapper">
-            <div v-if="state.searchResult" class="link_answer">
+            <div v-if="searchResult" class="link_answer">
               <img
                 src="../../public/images/main_smile.svg"
                 class="link_answer__image"
@@ -207,62 +207,11 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted } from "vue";
 
-import { useStore } from "@/store";
 import { linkToOuterPage } from "@/utils";
-import { ActionTypes, MutationTypes } from "@/store/types";
 import Loading from "@/components/common/Loading.vue";
-
-const animation = () => {
-  const state = reactive({
-    isAnimationStart: [false, false, false],
-    isAnimationEnd: [false, false, false],
-  });
-  const init = () => {
-    state.isAnimationStart = [false, false, false];
-    state.isAnimationEnd = [false, false, false];
-  };
-  const animationStart = (index: number) => {
-    state.isAnimationStart[index] = true;
-  };
-  const animationEnd = (index: number) => {
-    state.isAnimationEnd[index] = true;
-  };
-  return {
-    animationState: state,
-    animationInit: init,
-    animationStart,
-    animationEnd,
-  };
-};
-
-const storeData = () => {
-  const store = useStore();
-  const question = computed(() => store.state.question);
-  const searchResult = computed(() => store.state.searchResult);
-  const isLoading = computed(() => store.state.isLoading);
-
-  const getQuestionData = async () => {
-    await store.dispatch(ActionTypes.GET_QUESTION_DATA);
-  };
-  const searchQuestionData = async (inputAnswer: string) => {
-    await store.dispatch(ActionTypes.SEARCH_QUESTION_DATA, {
-      searchWord: inputAnswer,
-      answer: store.state.question.title,
-    });
-  };
-  const endLoading = () => {
-    store.commit(MutationTypes.END_LOADING);
-  };
-
-  return {
-    question,
-    searchResult,
-    isLoading,
-    getQuestionData,
-    searchQuestionData,
-    endLoading,
-  };
-};
+import { useAnimation } from "@/composable/useAnimation";
+import { useStoreQuestion } from "@/composable/useStoreQuestion";
+import { useHint } from "@/composable/useHint";
 
 export default defineComponent({
   name: "Main",
@@ -270,26 +219,20 @@ export default defineComponent({
     Loading,
   },
   setup() {
-    const animationValue = animation();
-    const storeValue = storeData();
+    const animation = useAnimation();
+    const store = useStoreQuestion();
+    const hint = useHint(store.question);
     const state = reactive({
       inputAnswer: "",
       showLinkAnswer: false,
       showAnswer: false,
     });
-
-    const titleLength = computed(() => storeValue.question.value.title.length);
-    const titleHead = computed(() => {
-      if (!storeValue.question.value.title) return;
-      return storeValue.question.value.title.charAt(0);
-    });
-    const titleUrl = computed(() => storeValue.question.value.url);
-    const isShow = computed(() => !storeValue.isLoading.value);
+    const titleUrl = computed(() => store.question.value.url);
     const tweetText = computed(() => {
-      if (storeValue.searchResult) {
-        return `すごい！ あなたは"${storeValue.question.value.title}"を当てました🤩`;
+      if (store.searchResult) {
+        return `すごい！ あなたは"${store.question.value.title}"を当てました🤩`;
       } else {
-        return `残念... あなたは"${storeValue.question.value.title}"を"${state.inputAnswer}"と答えました...😭`;
+        return `残念... あなたは"${store.question.value.title}"を"${state.inputAnswer}"と答えました...😭`;
       }
     });
 
@@ -297,15 +240,15 @@ export default defineComponent({
       state.inputAnswer = "";
       state.showLinkAnswer = false;
       state.showAnswer = false;
-      animationValue.animationInit();
+      animation.animationInit();
     };
     const clickPlay = async () => {
       init();
-      await storeValue.getQuestionData();
+      await store.getQuestionData();
     };
     const searchAnswer = async () => {
       if (!state.inputAnswer) return;
-      await storeValue.searchQuestionData(state.inputAnswer);
+      await store.searchQuestionData(state.inputAnswer);
     };
     const clickAnswer = async () => {
       await searchAnswer();
@@ -323,15 +266,13 @@ export default defineComponent({
 
     return {
       state,
-      titleLength,
-      titleHead,
       titleUrl,
-      isShow,
       clickPlay,
       clickAnswer,
       tweetAnswer,
-      ...animationValue,
-      ...storeValue,
+      ...animation,
+      ...store,
+      ...hint,
     };
   },
 });
