@@ -2,28 +2,7 @@
   <div class="main__wrapper">
     <Loading :isLoading="isLoading" />
     <div v-if="!isLoading" class="main">
-      <section class="main-left">
-        <div class="main-left__topic">
-          <div class="main-left__topic--text">関連ワード</div>
-          <img
-            class="main-left__topic--pencil"
-            src="../../public/images/main_pencil.png"
-          />
-        </div>
-        <div class="word__container">
-          <div
-            class="word"
-            v-for="(word, index) in question.words"
-            :key="`wordIndex:${index}`"
-          >
-            <div class="word__round"></div>
-            <div class="word__inner">{{ word }}</div>
-          </div>
-        </div>
-        <div class="change-button">
-          <button @click="clickPlay">お題を変える</button>
-        </div>
-      </section>
+      <LeftPage :words="question.words" @change-question="clickPlay" />
       <section class="main-right">
         <div class="main-right__answer-view" v-if="state.showAnswer">
           <div class="answer-view__topic">
@@ -208,6 +187,7 @@
 import { defineComponent, reactive, onMounted } from "vue";
 
 import Loading from "@/components/common/Loading.vue";
+import LeftPage from "@/components/Main/LeftPage.vue";
 import { useAnimation } from "@/composable/useAnimation";
 import { useQuestion } from "@/composable/useQuestion";
 import { useStore } from "@/store";
@@ -218,6 +198,7 @@ export default defineComponent({
   name: "Main",
   components: {
     Loading,
+    LeftPage,
   },
   setup() {
     const animation = useAnimation();
