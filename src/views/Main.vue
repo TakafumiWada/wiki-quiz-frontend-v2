@@ -1,11 +1,6 @@
 <template>
   <div class="main__wrapper">
-    <div class="main__loading" v-show="isLoading">
-      <div
-        class="main__loading--item spinner-border text-secondary"
-        role="status"
-      ></div>
-    </div>
+    <Loading :isLoading="isLoading" />
     <div v-if="isShow" class="main">
       <section class="main-left">
         <div class="main-left__topic">
@@ -215,6 +210,7 @@ import { defineComponent, reactive, computed, onMounted } from "vue";
 import { useStore } from "@/store";
 import { linkToOuterPage } from "@/utils";
 import { ActionTypes, MutationTypes } from "@/store/types";
+import Loading from "@/components/Loading.vue";
 
 const animation = () => {
   const state = reactive({
@@ -270,6 +266,9 @@ const storeData = () => {
 
 export default defineComponent({
   name: "Main",
+  components: {
+    Loading,
+  },
   setup() {
     const animationValue = animation();
     const storeValue = storeData();
