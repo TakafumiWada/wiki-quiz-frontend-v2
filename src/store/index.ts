@@ -1,4 +1,4 @@
-import { InjectionKey } from "vue";
+import { InjectionKey } from "@vue/composition-api";
 import { createStore, useStore as baseUseStore, Store } from "vuex";
 
 import { QuestionState } from "./types";
@@ -14,6 +14,6 @@ export default createStore<QuestionState>({
   actions,
 });
 
-export const useStore = () => {
+export const useStore = (): Store<QuestionState> => {
   return baseUseStore(key);
 };
