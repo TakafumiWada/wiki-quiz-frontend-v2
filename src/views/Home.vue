@@ -46,22 +46,22 @@
       <div class="howto__topic">How To</div>
       <div class="howto__contents">
         <HowToSection
-          sectionNumer="one"
+          :sectionNumer="SectionNum.ONE"
           topic="①考える。"
           subTopic="関連ワードから記事のタイトルを類推しよう。"
         />
         <HowToSection
-          sectionNumer="two"
+          :sectionNumer="SectionNum.TWO"
           topic="②もっと考える。"
           subTopic="さらに細かいヒントもチェックしよう。"
         />
         <HowToSection
-          sectionNumer="three"
+          :sectionNumer="SectionNum.THREE"
           topic="③発見する。"
           subTopic="解答後、実際に記事を見に行こう。"
         />
         <HowToSection
-          sectionNumer="four"
+          :sectionNumer="SectionNum.FOUR"
           topic="④世界が広がる。"
           subTopic="また一つ、あなたの世界が広がりました。"
         />
@@ -77,6 +77,7 @@ import { useRouter } from "vue-router";
 
 import { linkToInnerPage, linkToOuterPage } from "@/utils";
 import { NOTE_URL } from "@/config";
+import { SectionNum } from "@/types/Section";
 import SectionFooter from "@/components/SectionFooter.vue";
 import HowToSection from "@/components/HowToSection.vue";
 
@@ -94,6 +95,7 @@ export default defineComponent({
       NOTE_URL,
       linkToOuterPage,
       linkToInnerPage,
+      SectionNum,
     };
   },
 });
