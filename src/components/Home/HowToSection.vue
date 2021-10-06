@@ -7,7 +7,7 @@
         {{ topic }}
       </div>
       <div class="howto__section--image">
-        <img src="../../../public/images/about_1_white.png" alt="" />
+        <img :src="`images/about_${sectionNumer}_white.png`" alt="" />
       </div>
       <div class="howto__section--subtopic">
         {{ subTopic }}
