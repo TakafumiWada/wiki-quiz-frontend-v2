@@ -1,4 +1,4 @@
-import { Question } from "@/domain/Question";
+import { Question } from "@/types/Question";
 
 export interface QuestionState {
   question: Question;

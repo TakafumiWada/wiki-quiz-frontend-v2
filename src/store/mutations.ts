@@ -1,6 +1,6 @@
 import { MutationTree } from "vuex";
 import { QuestionState, MutationTypes } from "./types";
-import { Question } from "@/domain/Question";
+import { Question } from "@/types/Question";
 
 export const mutations: MutationTree<QuestionState> = {
   [MutationTypes.GET_QUESTION_DATA]: (state, payload: Question): void => {

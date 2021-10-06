@@ -1,5 +1,5 @@
 import { QuestionState } from "@/store/types";
-import { Question } from "@/domain/Question";
+import { Question } from "@/types/Question";
 
 export const mockQuestion: Question = {
   title: "岡山県道193号美袋停車場線",
