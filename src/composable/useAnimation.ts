@@ -1,6 +1,18 @@
 import { reactive } from "@vue/reactivity";
 
-export const useAnimation = () => {
+export interface AnimationState {
+  isAnimationStart: boolean[];
+  isAnimationEnd: boolean[];
+}
+
+export interface Animation {
+  animationState: AnimationState;
+  animationInit: () => void;
+  animationStart: (index: number) => void;
+  animationEnd: (index: number) => void;
+}
+
+export const useAnimation = (): Animation => {
   const state = reactive({
     isAnimationStart: [false, false, false],
     isAnimationEnd: [false, false, false],
