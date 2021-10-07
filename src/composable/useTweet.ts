@@ -1,5 +1,3 @@
-import { linkToOuterPage } from "@/utils";
-
 export const useTweet = () => {
   const tweetAnswer = (
     title: string,
