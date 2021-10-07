@@ -1,7 +1,7 @@
 import { state as initialState } from "@/store/state";
 import { actions } from "@/store/actions";
 import { ActionTypes, MutationTypes } from "@/store/types";
-import { mockQuestion } from "./mockState";
+import { mockQuestion } from "../../mock/mockState";
 
 jest.mock("@/api", () => ({
   QuestionApiFactory: () => {
@@ -16,7 +16,10 @@ jest.mock("@/api", () => ({
         answer: string;
       }) => {
         return new Promise((resolve) => {
-          resolve({ status: 200, data: { isCorrect: true } });
+          resolve({
+            status: 200,
+            data: { isCorrect: payload.searchWord == payload.answer },
+          });
         });
       },
     };
@@ -24,7 +27,7 @@ jest.mock("@/api", () => ({
 }));
 
 describe("actions", () => {
-  it("GET_QUESTION_DATA", async () => {
+  it("Questionを取得する", async () => {
     const commit = jest.fn();
     const state = initialState;
     await (actions[ActionTypes.GET_QUESTION_DATA] as any)({ commit, state });
@@ -36,16 +39,30 @@ describe("actions", () => {
     );
     expect(commit).toHaveBeenNthCalledWith(3, MutationTypes.END_LOADING);
   });
-  it("SEARCH_QUESTION_DATA", async () => {
+
+  it("入力した情報とタイトルが一致する場合、trueを返す", async () => {
     const commit = jest.fn();
     const state = initialState;
-    const searchText = "searchText";
+    state.question = mockQuestion;
+    const searchText = "岡山県道193号美袋停車場線";
     await (actions[ActionTypes.SEARCH_QUESTION_DATA] as any)(
       { commit, state },
-      { text: searchText }
+      { searchWord: searchText, answer: state.question.title }
     );
     expect(commit).toHaveBeenNthCalledWith(1, MutationTypes.GET_SEARCH_RESULT, {
       isCorrect: true,
     });
+  });
+
+  it("入力した情報が空の場合、何もせずに返す", async () => {
+    const commit = jest.fn();
+    const state = initialState;
+    state.question = mockQuestion;
+    const searchText = "";
+    await (actions[ActionTypes.SEARCH_QUESTION_DATA] as any)(
+      { commit, state },
+      { searchWord: searchText, answer: state.question.title }
+    );
+    expect(commit).toHaveBeenCalledTimes(0);
   });
 });

@@ -22,6 +22,7 @@ export const actions: ActionTree<QuestionState, any> = {
     payload: { searchWord: string; answer: string }
   ): Promise<void> => {
     try {
+      if (!payload.searchWord) return;
       const { isCorrect } = (await questionApi.questionconfirmPost(payload))
         .data;
       commit(MutationTypes.GET_SEARCH_RESULT, { isCorrect });

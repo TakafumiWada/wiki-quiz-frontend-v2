@@ -2,7 +2,7 @@ import { mutations } from "@/store/mutations";
 import { state as initialState } from "@/store/state";
 import { MutationTypes } from "@/store/types";
 
-import { mockQuestion, loadingState } from "./mockState";
+import { mockQuestion, loadingState } from "../../mock/mockState";
 
 describe("mutation", () => {
   it("GET_ARTICLE_DATA", () => {
