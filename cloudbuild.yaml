@@ -4,6 +4,9 @@ steps:
     args: ["install"]
   - name: node:12
     entrypoint: yarn
+    args: ["test:unit"]
+  - name: node:12
+    entrypoint: yarn
     args: ["run", "build"]
     env:
       - "VUE_APP_API_URL=${_API_URL}"
