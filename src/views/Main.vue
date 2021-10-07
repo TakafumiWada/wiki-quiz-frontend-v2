@@ -38,6 +38,7 @@ import { useQuestion } from "@/composable/useQuestion";
 import { useStore } from "@/store";
 import { useHint } from "@/composable/useHint";
 import { useTweet } from "@/composable/useTweet";
+import { linkToOuterPage } from "@/utils";
 
 interface State {
   inputAnswer: string;
@@ -78,7 +79,8 @@ export default defineComponent({
       tweet.tweetAnswer(
         store.question.value.title,
         state.inputAnswer,
-        store.searchResult.value
+        store.searchResult.value,
+        linkToOuterPage
       );
     };
     const clickPlay = async () => {
