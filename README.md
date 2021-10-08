@@ -20,12 +20,13 @@ QuizWiki は
 
 ## アーキテクチャ
 
-![QuizWiki_アーキテクチャ](https://user-images.githubusercontent.com/54055746/128136366-94dcb35c-697d-415b-98b4-6af5beb5f791.png)
+<img width="935" alt="スクリーンショット 2021-10-08 11 47 12" src="https://user-images.githubusercontent.com/54055746/136490805-873ca60b-d3fa-448c-a9aa-a61049f0eafd.png">
+
 
 ### 各種リポジトリ
 
 - フロントエンド: ここ
-- バックエンド: https://github.com/TakafumiWada/wiki-quiz-backend
+- バックエンド: https://github.com/TakafumiWada/wiki-quiz-backend-v2
 - フロントエンド(インフラ): https://github.com/TakafumiWada/terraform-wiki-quiz-frontend
 - バックエンド(インフラ): https://github.com/TakafumiWada/terraform-wiki-quiz-backend
 - API 設計書: https://github.com/TakafumiWada/wiki-quiz-api-spec
