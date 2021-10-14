@@ -24,20 +24,6 @@ const router = createRouter({
   // eslint-disable-next-line no-unused-vars
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
-      let className = "";
-      switch (to.hash) {
-        case "#top":
-          className = ".top";
-          break;
-        case "#about":
-          className = ".about";
-          break;
-        case "#howto":
-          className = ".howto";
-          break;
-        default:
-          break;
-      }
       return {
         el: to.hash,
         behavior: "smooth",
