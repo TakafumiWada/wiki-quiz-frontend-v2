@@ -10,6 +10,7 @@ steps:
     args: ["run", "build"]
     env:
       - "VUE_APP_API_URL=${_API_URL}"
+      - "VUE_APP_GA_MEASUREMENT_ID=${_GA_MEASUREMENT_ID}"
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args: ["gcloud", "app", "deploy", "--version", "${_VERSION}", "app.yaml"]
 substitutions:
